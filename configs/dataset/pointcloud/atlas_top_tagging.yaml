@@ -13,7 +13,7 @@ loader:
 
 # Dataset parameters
 parameters:
-  num_features: 4  # Constituent features: pt, eta, phi, energy
+  num_features: 5  # Constituent features: layer, pt, eta, phi, energy
   num_classes: 2  # Binary classification: signal (1) vs background (0)
   task: classification
   loss_type: cross_entropy

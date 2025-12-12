@@ -1,0 +1,6 @@
+_target_: topobench.transforms.data_transform.DataTransform
+transform_type: 'lifting'
+transform_name: "DetectorLayerLifting"
+preserve_edge_attr: False
+complex_dim: 1
+layers: [0,1,2,3]

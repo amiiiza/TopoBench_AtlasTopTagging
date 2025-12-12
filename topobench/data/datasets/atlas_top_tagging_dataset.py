@@ -10,7 +10,6 @@ import h5py
 import numpy as np
 import torch
 from torch_geometric.data import Data, InMemoryDataset
-from torch_geometric.nn import knn_graph
 from tqdm import tqdm
 
 
@@ -547,9 +546,17 @@ class ATLASTopTaggingDataset(InMemoryDataset):
                 valid_mask[: self.max_constituents] = True
                 num_valid = self.max_constituents
 
+            # Infer detector layer from eta
+            eta_abs = torch.abs(eta[valid_mask])
+            layer = torch.zeros_like(eta_abs)
+            layer[eta_abs >= 0.8] = 1
+            layer[eta_abs >= 1.5] = 2
+            layer[eta_abs >= 2.5] = 3
+
             # Build node feature matrix [num_constituents, 4]
             x = torch.stack(
                 [
+                    layer,
                     pt[valid_mask],
                     eta[valid_mask],
                     phi[valid_mask],
@@ -559,7 +566,7 @@ class ATLASTopTaggingDataset(InMemoryDataset):
             )
 
             # Creare k-NN graph connectivity
-            edge_index = knn_graph(x, k=5, loop=False)
+            # edge_index = knn_graph(x, k=5, loop=False)
 
             # Add high-level features as graph-level attributes if requested
             graph_attrs = {}
@@ -595,8 +602,8 @@ class ATLASTopTaggingDataset(InMemoryDataset):
             data = Data(
                 x=x,
                 y=y,
-                edge_index=edge_index,  # No edges initially, can be added via transforms
-                edge_attr=None,
+                # edge_index=edge_index,  # No edges initially, can be added via transforms
+                # edge_attr=None,
                 num_nodes=num_valid,
                 **graph_attrs,
             )
@@ -660,9 +667,9 @@ class ATLASTopTaggingDataset(InMemoryDataset):
         Returns
         -------
         int
-            Number of features (4).
+            Number of features (5).
         """
-        return 4
+        return 5
 
     @property
     def num_high_level_features(self) -> int:

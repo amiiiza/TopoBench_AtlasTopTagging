@@ -1,0 +1,4 @@
+_target_: topobench.transforms.data_transform.DataTransform
+transform_name: "MaxDifference"
+transform_type: "feature_lifting"
+same_detector: True

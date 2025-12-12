@@ -17,6 +17,9 @@ from topobench.transforms.liftings.graph2simplicial import (
 from topobench.transforms.liftings.hypergraph2combinatorial import (
     HYPERGRAPH2COMBINATORIAL_LIFTINGS,
 )
+from topobench.transforms.liftings.pointcloud2graph import (
+    POINTCLOUD2GRAPH_LIFTINGS,
+)
 from topobench.transforms.liftings.pointcloud2hypergraph import (
     POINTCLOUD2HYPERGRAPH_LIFTINGS,
 )
@@ -36,6 +39,7 @@ LIFTINGS = {
     **GRAPH2COMBINATORIAL_LIFTINGS,
     **HYPERGRAPH2COMBINATORIAL_LIFTINGS,
     **SIMPLICIAL2COMBINATORIAL_LIFTINGS,
+    **POINTCLOUD2GRAPH_LIFTINGS,
 }
 
 TRANSFORMS: dict[Any, Any] = {
